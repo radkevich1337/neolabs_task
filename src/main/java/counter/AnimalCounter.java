@@ -1,14 +1,17 @@
 package counter;
 
-import parser.Parser;
 
+import parser.IParser;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class AnimalCounter implements ICounter {
     final HashMap<String, Integer> values;
+    final IParser parser;
 
-    public AnimalCounter() {
+    public AnimalCounter(final IParser parser) {
         this.values = new HashMap<>();
+        this.parser = parser;
     }
 
     /**
@@ -19,15 +22,11 @@ public class AnimalCounter implements ICounter {
      */
     @Override
     public void count(final String[] data, final String[] rules) {
-        for (final String rule : rules) {
-            int countAnimal = 0;
-            for (final String animal : data) {
-                if (Parser.parse(animal.toLowerCase(), rule.toLowerCase())) {
-                    countAnimal++;
-                }
-            }
-            values.put(rule, countAnimal);
-        }
+        Arrays.stream(rules).
+                forEach(rule -> values.put(rule, (int)Arrays.stream(data).
+                        filter(x -> parser.parse(x.toLowerCase(), rule.toLowerCase())).
+                        count())
+                );
     }
 
     @Override

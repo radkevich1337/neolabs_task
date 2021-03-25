@@ -2,11 +2,12 @@ package counter;
 
 import org.junit.Assert;
 import org.junit.Test;
+import parser.AnimalParser;
 
 public class AnimalCounterTest {
     @Test
     public void countTest() {
-        ICounter counter = new AnimalCounter();
+        ICounter counter = new AnimalCounter(new AnimalParser());
 
         String[] data1 = {"ЛЕГКОЕ,МАЛЕНЬКОЕ,ВСЕЯДНОЕ", "ТЯЖЕЛОЕ,МАЛЕНЬКОЕ,ТРАВОЯДНОЕ", "ТЯЖЕЛОЕ,НЕВЫСОКОЕ,ТРАВОЯДНОЕ"};
         String[] rules1 = {"ТРАВОЯДНОЕ"};
